@@ -1,4 +1,4 @@
-name: 'Setup Cloudflare WARP Connector'
+name: 'Cloudflare WARP Connector'
 author: 'wallravit <wallravit@24x7x.com>'
 description: 'This GitHub Action sets up and configures the Cloudflare WARP connector on an Ubuntu system.'
 inputs:
