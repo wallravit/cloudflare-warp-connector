@@ -1,0 +1,17 @@
+name: "Test Cloudflare WARP Connector"
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  config-cloudflare-warp:
+    name: Config Cloudflare WARP
+    runs-on: ubuntu-latest
+    steps:
+      - name: config cloudflare warp
+        uses: 24x7x/cloudflare-warp-connector@v1.0.0
+        with:
+          organization: ${{ vars.ORGANIZATION }}
+          cloudflare_access_client_id: ${{ vars.CLOUDFLARE_ACCESS_CLIENT_ID }}
+          cloudflare_client_secret: ${{ secrets.CLOUDFLARE_CLIENT_SECRET }}
+          cloudflare_warp_token: ${{ secrets.CLOUDFLARE_WARP_TOKEN }}

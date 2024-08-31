@@ -1,0 +1,53 @@
+name: 'Setup Cloudflare WARP Connector'
+author: 'wallravit <wallravit@24x7x.com>'
+description: 'This GitHub Action sets up and configures the Cloudflare WARP connector on an Ubuntu system.'
+inputs:
+  organization:
+    description: 'Organization Name or Team name'
+    required: true
+  cloudflare_access_client_id:
+    description: 'Cloudflare Access Client Id'
+    required: true
+  cloudflare_client_secret:
+    description: 'Cloudflare Access Client Secret'
+    required: true
+  cloudflare_warp_token:
+    description: 'Cloudflare Connector Token'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        repository: 24x7x/cloudflare-warp-connector
+        ref: main
+        path: cloudflare-warp-connector
+
+    - name: Install Cloudflare WARP
+      run: |
+        curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+        sudo apt update && sudo apt install cloudflare-warp
+      shell: bash
+
+    - name: Config Cloudflare WARP
+      working-directory: cloudflare-warp-connector/scripts
+      run: |
+        ./cf-build-config.sh mdm.xml ${{ inputs.organization }} ${{ inputs.cloudflare_access_client_id }} ${{ inputs.cloudflare_client_secret }} ${{ inputs.cloudflare_warp_token }}
+        sudo mv mdm.xml /var/lib/cloudflare-warp/
+        sudo systemctl restart warp-svc.service
+        ./cf-warp-pre-connect.sh -m 10
+        warp-cli --accept-tos connect
+      shell: bash
+
+    - name: Validate Cloudflare WARP Config
+      run: |
+        warp-cli --accept-tos registration show
+        warp-cli --accept-tos status
+      shell: bash
+
+branding:
+  icon: 'cloud'
+  color: 'orange'
