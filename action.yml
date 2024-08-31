@@ -21,7 +21,7 @@ runs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        repository: 24x7x/cloudflare-warp-connector
+        repository: wallravit/cloudflare-warp-connector
         ref: main
         path: cloudflare-warp-connector
 
