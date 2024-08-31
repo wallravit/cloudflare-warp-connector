@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: config cloudflare warp
-        uses: 24x7x/cloudflare-warp-connector@v1.0.0
+        uses: wallravit/cloudflare-warp-connector@v1.0.0
         with:
           organization: ${{ vars.ORGANIZATION }}
           cloudflare_access_client_id: ${{ vars.CLOUDFLARE_ACCESS_CLIENT_ID }}
