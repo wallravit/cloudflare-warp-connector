@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup Cloudflare WARP Connector
-        uses: 24x7x/gh-cloudflare-warp-connector@v1.0.0
+        uses: wallravit/cloudflare-warp-connector@v1.0.0
         with:
           organization: 'your-organization'
           cloudflare_access_client_id: ${{ vars.CLOUDFLARE_CLIENT_ID }}
@@ -31,7 +31,9 @@ jobs:
 | `cloudflare_warp_token`        | Cloudflare Connector Token                            | `true`   |         |
 
 ## How to get the Cloudflare WARP config
-https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/private-net/warp-connector/
+👉 https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/private-net/warp-connector/
+<img width="1491" alt="Screenshot 2024-08-31 at 10 50 46" src="https://github.com/user-attachments/assets/9df67df7-ae06-4a35-884b-9b316f3cacfa">
+
 
 ## Outputs
 
@@ -50,7 +52,7 @@ jobs:
 
     steps:
       - name: Setup Cloudflare WARP Connector
-        uses: 24x7x/gh-cloudflare-warp-connector@v1.0.0
+        uses: wallravit/cloudflare-warp-connector@v1.0.0
         with:
           organization: 'your-organization'
           cloudflare_access_client_id: ${{ vars.CLOUDFLARE_CLIENT_ID }}
