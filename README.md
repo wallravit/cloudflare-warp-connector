@@ -1,11 +1,34 @@
 
-# Setup Cloudflare WARP Connector GitHub Action
+# Cloudflare WARP Connector GitHub Action: Secure Private Network Access for CI/CD Pipelines
 
-This GitHub Action sets up and configures the Cloudflare WARP connector on an Ubuntu system. It automates the installation of the Cloudflare WARP client, configures it with the necessary Cloudflare credentials, and ensures the connector is properly registered and connected.
+This GitHub Action automates the setup and configuration of the **Cloudflare WARP Connector** on an Ubuntu system. It installs the Cloudflare WARP client, registers the connector, and securely connects your GitHub Actions runner to private networks. This action is perfect for accessing internal systems, enhancing **automation testing**, and ensuring **network consistency** during CI/CD processes.
 
-## Usage
+## Key Features
+- **Seamless setup** of Cloudflare WARP on your runner.
+- Secure access to **private resources** behind firewalls.
+- Ensures **encrypted communication** and **IP masking**.
+- Supports **E2E testing** and **API testing** in restricted environments.
 
-To use this action in your workflow, you can add the following step to your `.github/workflows/main.yml` file:
+## Table of Contents
+- [Setup](#setup)
+- [Usage](#usage)
+- [Inputs](#inputs)
+- [Outputs](#outputs)
+- [Example Workflow](#example-workflow)
+- [Use Cases](#use-cases)
+  - [Access Internal Systems](#access-internal-systems)
+  - [Network Consistency for E2E Testing](#network-consistency-for-e2e-testing)
+  - [Access Restricted Networks for Automation Testing](#access-restricted-networks-for-automation-testing)
+  - [Security Testing in Protected Environment](#security-testing-in-protected-environment)
+  - [Masking and Encrypting Traffic](#masking-and-encrypting-traffic)
+- [Security](#security)
+- [Contributions](#contributions)
+
+## Setup
+To use the Cloudflare WARP Connector GitHub Action in your CI/CD pipeline, follow these steps:
+
+### Installation
+Add the following to your `.github/workflows/main.yml` file:
 
 ```yaml
 jobs:
@@ -21,6 +44,14 @@ jobs:
           cloudflare_warp_token: ${{ secrets.CLOUDFLARE_WARP_TOKEN }}
 ```
 
+For more information on getting your Cloudflare WARP configuration, visit the [Cloudflare Developer Documentation](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/private-net/warp-connector/).
+
+## How to get the Cloudflare WARP config
+👉 https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/private-net/warp-connector/
+
+<img width="1491" alt="Screenshot 2024-08-31 at 10 50 46" src="https://github.com/user-attachments/assets/9df67df7-ae06-4a35-884b-9b316f3cacfa">
+
+
 ## Inputs
 
 | Input Name                     | Description                                           | Required | Default |
@@ -30,14 +61,11 @@ jobs:
 | `cloudflare_client_secret`     | Cloudflare Access Client Secret                       | `true`   |         |
 | `cloudflare_warp_token`        | Cloudflare Connector Token                            | `true`   |         |
 
-## How to get the Cloudflare WARP config
-👉 https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/private-net/warp-connector/
-<img width="1491" alt="Screenshot 2024-08-31 at 10 50 46" src="https://github.com/user-attachments/assets/9df67df7-ae06-4a35-884b-9b316f3cacfa">
 
 
 ## Outputs
 
-This action does not generate any direct outputs. However, it installs, configures, and connects the Cloudflare WARP connector on the runner.
+This action does not produce direct outputs but ensures that the Cloudflare WARP connector is correctly installed, configured, and connected on the runner.
 
 ## Example Workflow
 
@@ -66,34 +94,28 @@ jobs:
         run: warp-cli --accept-tos status
 ```
 
-
 ## Use Cases
 
-The `cloudflare-warp-connector` GitHub Action offers several valuable use cases, particularly in automation testing and CI/CD pipelines:
-
-### 1. Securely Connect to Private Resources
-- **Access Internal Systems**: This action allows your GitHub Actions runner to securely connect to services or databases that are only accessible within a private network, essential for executing tasks like deployments, E2E tests, or API testing on internal systems without exposing them to the public internet.
+### 1. Access Internal Systems
+Securely connect to **private resources** such as internal systems, databases, or APIs in your CI/CD pipeline, enabling tasks like **deployments**, **API testing**, and **end-to-end tests** without exposing resources to the public internet.
 
 ### 2. Network Consistency for E2E Testing
-- **Consistent Environment**: By routing E2E test traffic through Cloudflare WARP, you ensure a controlled and stable network environment, reducing test flakiness due to network inconsistencies.
-- **Geo-Testing**: The ability to route traffic through different geographical nodes makes it easier to simulate location-specific behaviors in tests.
+Cloudflare WARP ensures a consistent network environment for **end-to-end testing** by routing traffic through controlled Cloudflare nodes. This reduces **test flakiness** and enables **geo-location testing**.
 
 ### 3. Access Restricted Networks for Automation Testing
-- **Robot Framework Tests**: For tests executed on systems within secure or restricted networks, this action provides a tunnel into those environments, allowing seamless test execution.
-- **Testing APIs Behind Firewalls**: When testing APIs that are restricted to specific IP ranges or networks, this action makes it possible for your runner to appear within the required network, enabling thorough API testing.
+Run **automation tests** such as **Robot Framework** in restricted networks or behind firewalls. This action securely connects your GitHub runner to the required network, allowing for seamless testing.
 
-### 4. Security Testing in a Protected Environment
-- **Penetration Testing and Vulnerability Scanning**: Security tests often require a secure and isolated environment. Using this action, you can run these tests securely within your CI/CD pipeline, ensuring sensitive data remains protected.
-- **Simulating Different Network Conditions**: This action can simulate different network conditions by routing traffic through various Cloudflare nodes, which is useful for testing the resilience and performance of applications under diverse network scenarios.
+### 4. Security Testing in Protected Environment
+Run **penetration tests** and **vulnerability scans** within your CI/CD pipeline, utilizing the security of Cloudflare’s network and ensuring sensitive data stays protected.
 
 ### 5. Masking and Encrypting Traffic
-- **IP Masking**: For projects that require hiding the public IP address of the GitHub Actions runner, this action can route traffic through Cloudflare’s network, effectively masking the runner’s IP.
-- **Encrypted Communication**: Ensures all traffic from the GitHub Actions runner is encrypted, enhancing security during automation testing and deployment processes.
+- **IP Masking**: Hide the runner's IP address by routing traffic through Cloudflare’s network.
+- **Encryption**: All runner traffic is encrypted, ensuring a secure testing and deployment process.
 
 ## Security
 
-It's crucial to store sensitive information like `cloudflare_access_client_id`, `cloudflare_client_secret`, and `cloudflare_warp_token` in GitHub Secrets. You can add them in the repository settings under `Secrets and variables > Actions`.
+Ensure you securely store sensitive information like `cloudflare_access_client_id`, `cloudflare_client_secret`, and `cloudflare_warp_token` using [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets).
 
 ## Contributions
 
-Contributions are welcome! If you find a bug or have a feature request, please open an issue. Pull requests are also welcome.
+We welcome contributions! Feel free to report bugs, request features, or open a pull request to help improve the **Cloudflare WARP Connector GitHub Action**.
